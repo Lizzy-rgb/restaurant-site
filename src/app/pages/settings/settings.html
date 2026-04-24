@@ -1,0 +1,25 @@
+<h2 class="mb-4">Settings</h2>
+
+<div class="form-check form-switch mb-3">
+  <input
+    class="form-check-input"
+    type="checkbox"
+    id="savedAddress"
+    [(ngModel)]="useSavedAddressByDefault"
+  />
+  <label class="form-check-label" for="savedAddress">
+    Use saved address by default
+  </label>
+</div>
+
+<div class="form-check form-switch mb-3">
+  <input
+    class="form-check-input"
+    type="checkbox"
+    id="skipModify"
+    [(ngModel)]="skipModifyOrderPageByDefault"
+  />
+  <label class="form-check-label" for="skipModify">
+    Skip modify order page by default
+  </label>
+</div>

@@ -1,0 +1,24 @@
+<h2 class="mb-4">Active Orders</h2>
+
+<div class="row g-4">
+  @for (order of orders; track order.id) {
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title mb-0">{{ order.name }}</h5>
+            <span class="badge text-bg-danger">{{ order.time }}</span>
+          </div>
+
+          <ul class="list-unstyled">
+            @for (item of order.items; track item) {
+              <li>• {{ item }}</li>
+            }
+          </ul>
+
+          <button class="btn btn-success">Complete</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

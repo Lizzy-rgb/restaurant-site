@@ -1,0 +1,24 @@
+@if (!isSignedIn) {
+    <div class="alert alert-danger">
+      You need to sign in or create an account before placing an order.
+    </div>
+  }
+  
+  @if (isSignedIn && !hasItems) {
+    <div class="alert alert-info">
+      You have not added anything to your order yet. Check out our menu.
+    </div>
+  }
+  
+  @if (isSignedIn && hasItems) {
+    <div class="list-group mb-4">
+      @for (item of orderItems; track item.name) {
+        <div class="list-group-item">
+          <h5 class="mb-1">{{ item.name }}</h5>
+          <p class="mb-0">{{ item.description }}</p>
+        </div>
+      }
+    </div>
+  
+    <button class="btn btn-primary">Submit Order</button>
+  }

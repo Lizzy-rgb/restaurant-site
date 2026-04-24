@@ -1,0 +1,38 @@
+<h2 class="mb-4">Add Modifiers to Item</h2>
+
+<div class="form-check mb-2">
+  <input class="form-check-input" type="checkbox" id="modifier1" />
+  <label class="form-check-label" for="modifier1">Modifier 1</label>
+</div>
+
+<div class="form-check mb-2">
+  <input class="form-check-input" type="checkbox" id="modifier2" />
+  <label class="form-check-label" for="modifier2">Modifier 2</label>
+</div>
+
+<div class="form-check mb-3">
+  <input class="form-check-input" type="checkbox" id="modifier3" />
+  <label class="form-check-label" for="modifier3">Modifier 3</label>
+</div>
+
+<select class="form-select mb-3">
+  <option selected>Select Menu Modifier</option>
+  <option>Option 1</option>
+  <option>Option 2</option>
+</select>
+
+<select class="form-select mb-3">
+  <option selected>Select Menu Modifier</option>
+  <option>Option 1</option>
+  <option>Option 2</option>
+</select>
+
+<textarea class="form-control mb-3" rows="5" placeholder="Special instructions"></textarea>
+
+<button class="btn btn-primary">Add to Order</button>
+
+@if (!isSignedIn) {
+  <div class="alert alert-danger mt-3">
+    You need to sign in or create an account before placing an order.
+  </div>
+}
