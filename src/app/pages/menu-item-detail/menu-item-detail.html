@@ -29,10 +29,12 @@
 
 <textarea class="form-control mb-3" rows="5" placeholder="Special instructions"></textarea>
 
-<button class="btn btn-primary">Add to Order</button>
+@if (!authenticationService.currentUser()) {
+  <button class="btn btn-secondary" disabled>Add to Order</button>
 
-@if (!isSignedIn) {
   <div class="alert alert-danger mt-3">
     You need to sign in or create an account before placing an order.
   </div>
+} @else {
+  <button class="btn btn-primary">Add to Order</button>
 }

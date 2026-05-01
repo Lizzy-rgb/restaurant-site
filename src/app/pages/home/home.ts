@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { restaurantName } from '../../app.config';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [RouterLink],
   templateUrl: './home.html',
-  styleUrl: './home.css'
+  styleUrl: './home.css',
 })
-export class Home {}
+export class Home {
+  name = restaurantName;
+}
