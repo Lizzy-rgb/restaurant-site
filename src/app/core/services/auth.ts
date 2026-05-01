@@ -6,7 +6,8 @@ import {
   signOut,
   User,
 } from 'firebase/auth';
-import { auth } from '../../firebase.config';
+import { auth, db } from '../../firebase.config';
+import { doc, setDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -38,10 +39,17 @@ export class Auth {
     }
   }
 
-  async signUp(email: string, password: string) {
+  async signUp(name: string, email: string, password: string) {
     try {
       this.errorMessage.set('');
-      await createUserWithEmailAndPassword(auth, email, password);
+      // Create User
+      const userObj = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userObj.user;
+
+      // Store Additional Fields
+      await setDoc(doc(db, 'users', user.uid), {
+        name: name, // Add any additional fields here
+      });
     } catch (error: any) {
       const code = error?.code;
       if (code === 'Sample Error Message') {
