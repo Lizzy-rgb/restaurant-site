@@ -17,7 +17,7 @@ import { staffGuard } from './core/guards/staff-guard';
 export const routes: Routes = [
   { path: '', component: Home, title: 'Home' },
   { path: 'menu', component: Menu, title: 'Menu' },
-  { path: 'menu/:id', component: MenuItemDetail, title: 'Edit Item' },
+  { path: 'menu/:name', component: MenuItemDetail, title: 'Edit Item' },
   { path: 'my-order', component: MyOrder, title: 'My Order', canActivate: [AuthGuard] },
   { path: 'sign-in', component: SignIn, title: 'Sign In' },
   { path: 'register', component: Register, title: 'Register' },
