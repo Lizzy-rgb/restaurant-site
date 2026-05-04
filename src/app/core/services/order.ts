@@ -38,7 +38,7 @@ export class OrderService {
   itemToString(item: OrderItem): string {
     let str = `${item.quantity}x ${item.menuItem.name}`;
     if (item.modifiers.length > 0) str += ` (${item.modifiers.join(', ')})`;
-    if (item.additionalRequests) str += ` — "${item.additionalRequests}"`;
+    if (item.additionalRequests) str += ` — [${item.additionalRequests}]`;
     return str;
   }
 

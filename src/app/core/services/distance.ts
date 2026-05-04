@@ -15,6 +15,7 @@ interface OsrmResponse {
   providedIn: 'root',
 })
 export class DistanceService {
+  // This is using open source services to turn addresses into coords and calculate distance
   private http = inject(HttpClient);
 
   private async geocode(address: string): Promise<{ lat: number; lon: number } | null> {
