@@ -30,17 +30,14 @@ export class MyOrder {
 
   hasItems = computed(() => this.orderService.items().length > 0);
 
-  // Expose config constants to the template
   readonly taxRate = taxRate;
   readonly deliveryFeeBase = deliveryFeeBase;
   readonly deliveryFeePerMile = deliveryFeePerMile;
 
-  // Checkout flow state
   step = signal(1);
   deliveryType = signal<'pickup' | 'delivery'>('pickup');
   deliveryTime = '';
 
-  // Address fields
   deliveryStreet = '';
   deliveryCity = '';
   deliveryState = '';
@@ -159,7 +156,23 @@ export class MyOrder {
   }
 
   placeOrder() {
-    // Sample site — no real submission
+    const address = this.deliveryType() === 'delivery'
+      ? [this.deliveryStreet, this.deliveryCity, this.deliveryState, this.deliveryZip]
+          .filter(Boolean)
+          .join(', ')
+      : null;
+
+    const orderSummary = {
+      deliveryMethod: this.deliveryType(),         // string, 'pickup' or 'delivery'
+      address,                                     // string, nullable
+      requestedTime: this.deliveryTime || null,    // string, nullable
+      items: this.orderService.itemsToStrings().join(' | '),  // ends up being just one string
+      subtotal: +this.orderService.subtotal().toFixed(2),     // should we leave this out of the firebase table?
+      total: +this.total().toFixed(2),
+    };
+
+    console.log('Order submitted:', orderSummary);
+
     this.bsModal?.hide();
   }
 }
