@@ -1,3 +1,19 @@
 .navbar-brand {
-    font-weight: 700;
-  }
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--clr-accent) !important;
+}
+
+nav.navbar {
+  background-color: #18100D !important;
+  border-bottom: 2px solid var(--clr-accent);
+}
+
+nav.navbar .nav-link {
+  color: #d4c4b0 !important;
+}
+
+nav.navbar .nav-link:hover,
+nav.navbar .nav-link.active {
+  color: var(--clr-accent) !important;
+}
