@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --clr-bg: #F8F4EE;
+  --clr-surface: #FFFDF9;
+  --clr-border: #D6C9B8;
+  --clr-primary: #722F37;
+  --clr-primary-dark: #551F28;
+  --clr-accent: #C4A460;
+  --clr-text: #1E1410;
+}
+
+body {
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--clr-primary) !important;
+  border-color: var(--clr-primary) !important;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--clr-primary-dark) !important;
+  border-color: var(--clr-primary-dark) !important;
+}
+
+.btn-dark {
+  background-color: var(--clr-primary) !important;
+  border-color: var(--clr-primary) !important;
+}
+.btn-dark:hover,
+.btn-dark:focus {
+  background-color: var(--clr-primary-dark) !important;
+  border-color: var(--clr-primary-dark) !important;
+}
+
+.btn-outline-primary {
+  color: var(--clr-primary) !important;
+  border-color: var(--clr-primary) !important;
+}
+.btn-outline-primary:hover {
+  background-color: var(--clr-primary) !important;
+  color: #fff !important;
+}
+
+.btn-outline-light {
+  color: #e8d8c0 !important;
+  border-color: #e8d8c0 !important;
+}
+.btn-outline-light:hover {
+  background-color: rgba(232, 216, 192, 0.15) !important;
+}
+
+/* Cards */
+.card {
+  border-color: var(--clr-border) !important;
+  background-color: var(--clr-surface) !important;
+  border-radius: 8px !important;
+}
