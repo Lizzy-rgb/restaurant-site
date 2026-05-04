@@ -2,6 +2,11 @@
 
 <div class="row g-4">
   <div class="col-md-6">
+    <h5>Name</h5>
+    <label class="form-label">Display Name</label>
+    <input [(ngModel)]="name" type="text" class="form-control mb-4" />
+
+    <h5>Login</h5>
     <label class="form-label">Change Email</label>
     <input [(ngModel)]="email" type="email" class="form-control mb-3" />
 
@@ -11,7 +16,12 @@
     <label class="form-label">Confirm Password</label>
     <input [(ngModel)]="confirmPassword" type="password" class="form-control mb-3" />
 
-    <button class="btn btn-primary">Save Login Changes</button>
+    @if (loginMessage()) {
+      <p class="small mb-2" [class.text-success]="loginMessage() === 'Saved!'" [class.text-danger]="loginMessage() !== 'Saved!'">
+        {{ loginMessage() }}
+      </p>
+    }
+    <button class="btn btn-primary" (click)="saveLoginChanges()">Save Login Changes</button>
   </div>
 
   <div class="col-md-6">
@@ -29,6 +39,11 @@
     <label class="form-label">ZIP</label>
     <input [(ngModel)]="zip" type="text" class="form-control mb-3" />
 
-    <button class="btn btn-outline-primary">Save Address</button>
+    @if (profileMessage()) {
+      <p class="small mb-2" [class.text-success]="profileMessage() === 'Saved!'" [class.text-danger]="profileMessage() !== 'Saved!'">
+        {{ profileMessage() }}
+      </p>
+    }
+    <button class="btn btn-outline-primary" (click)="saveAddress()">Save Address</button>
   </div>
 </div>

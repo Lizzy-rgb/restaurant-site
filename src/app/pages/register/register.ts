@@ -16,7 +16,6 @@ export class Register {
   errorMessage = signal('');
 
   async register(name: string, email: string, password: string) {
-    // Name not actually captured yet
     try {
       await this.authService.signUp(name, email, password);
       this.router.navigate(['']);
