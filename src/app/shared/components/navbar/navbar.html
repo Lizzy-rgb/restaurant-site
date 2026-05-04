@@ -45,6 +45,9 @@
           <a class="btn btn-primary btn-sm" routerLink="/register">Register</a>
         </div>
       } @else {
+        @if (firstName()) {
+          <span class="navbar-greeting me-3">Hello, {{ firstName() }}!</span>
+        }
         <div class="dropdown">
           <button
             class="btn btn-outline-light btn-sm dropdown-toggle"
