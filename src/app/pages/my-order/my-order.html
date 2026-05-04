@@ -1,24 +1,248 @@
-@if (!isSignedIn) {
-    <div class="alert alert-danger">
-      You need to sign in or create an account before placing an order.
-    </div>
-  }
-  
-  @if (isSignedIn && !hasItems) {
-    <div class="alert alert-info">
-      You have not added anything to your order yet. Check out our menu.
-    </div>
-  }
-  
-  @if (isSignedIn && hasItems) {
-    <div class="list-group mb-4">
-      @for (item of orderItems; track item.name) {
-        <div class="list-group-item">
-          <h5 class="mb-1">{{ item.name }}</h5>
-          <p class="mb-0">{{ item.description }}</p>
+<h2 class="mb-4">My Order</h2>
+
+@if (!hasItems()) {
+  <div class="alert alert-info">
+    You haven't added anything yet. <a href="/menu">Browse the menu</a> to get started.
+  </div>
+} @else {
+  <div class="order-list mb-4">
+    @for (item of orderService.items(); track $index; let i = $index) {
+      <div class="order-card" (click)="editItem(i)" role="button">
+        <img [src]="item.menuItem.picture" [alt]="item.menuItem.name" class="order-thumb" />
+        <div class="order-info">
+          <div class="d-flex justify-content-between align-items-start">
+            <h5 class="mb-1">{{ item.menuItem.name }}</h5>
+            <span class="fw-bold">${{ itemSubtotal(i) }}</span>
+          </div>
+          <p class="text-muted small mb-1">{{ item.menuItem.description }}</p>
+          <p class="mb-1 small">Qty: {{ item.quantity }} &times; ${{ item.menuItem.price.toFixed(2) }}</p>
+          @if (item.modifiers.length > 0) {
+            <div class="d-flex flex-wrap gap-1 mt-1">
+              @for (mod of item.modifiers; track $index) {
+                <span class="badge modifier-badge">{{ mod }}</span>
+              }
+            </div>
+          }
+          @if (item.additionalRequests) {
+            <p class="small fst-italic mt-1 mb-0">"{{ item.additionalRequests }}"</p>
+          }
         </div>
-      }
+      </div>
+    }
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center">
+    <span class="fs-5">Subtotal: <strong>${{ orderService.subtotal().toFixed(2) }}</strong></span>
+    <button class="btn btn-primary" (click)="openCheckout()">Submit Order</button>
+  </div>
+}
+
+<!-- Checkout Modal -->
+<div class="modal fade" tabindex="-1" #checkoutModal>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title mb-0">
+            @switch (step()) {
+              @case (1) { Review Your Order }
+              @case (2) { Delivery or Pickup }
+              @case (3) { Price Summary }
+            }
+          </h5>
+          <small class="text-muted">Step {{ step() }} of 3</small>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Step 1: Review Order -->
+        @if (step() === 1) {
+          <ul class="order-review-list">
+            @for (line of orderService.itemsToStrings(); track $index) {
+              <li>{{ line }}</li>
+            }
+          </ul>
+          <div class="text-end fw-semibold mt-3">
+            Subtotal: ${{ orderService.subtotal().toFixed(2) }}
+          </div>
+        }
+
+        <!-- Step 2: Delivery or Pickup -->
+        @if (step() === 2) {
+          <div class="d-flex gap-3 mb-4">
+            <button
+              class="fulfillment-btn flex-fill"
+              [class.active]="deliveryType() === 'pickup'"
+              (click)="deliveryType.set('pickup')"
+            >
+              <strong>Pickup</strong>
+              <div class="small text-muted">I'll pick it up myself</div>
+            </button>
+            <button
+              class="fulfillment-btn flex-fill"
+              [class.active]="deliveryType() === 'delivery'"
+              (click)="deliveryType.set('delivery')"
+            >
+              <strong>Delivery</strong>
+              <div class="small text-muted">Deliver to my address</div>
+            </button>
+          </div>
+
+          @if (deliveryType() === 'delivery') {
+            <div class="mb-3">
+              <label class="form-label">Street <span class="text-danger">*</span></label>
+              <input
+                [(ngModel)]="deliveryStreet"
+                type="text"
+                class="form-control"
+                [class.is-invalid]="showValidation() && !deliveryStreet.trim()"
+                placeholder="123 Main St"
+              />
+              <div class="invalid-feedback">Street is required.</div>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-md-5">
+                <label class="form-label">City <span class="text-danger">*</span></label>
+                <input
+                  [(ngModel)]="deliveryCity"
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="showValidation() && !deliveryCity.trim()"
+                  placeholder="Springfield"
+                />
+                <div class="invalid-feedback">City is required.</div>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">State <span class="text-danger">*</span></label>
+                <input
+                  [(ngModel)]="deliveryState"
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="showValidation() && !deliveryState.trim()"
+                  placeholder="IL"
+                  maxlength="2"
+                />
+                <div class="invalid-feedback">State is required.</div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">ZIP <span class="text-muted small">(optional)</span></label>
+                <input
+                  [(ngModel)]="deliveryZip"
+                  type="text"
+                  class="form-control"
+                  placeholder="62701"
+                  maxlength="5"
+                />
+              </div>
+            </div>
+            @if (addressError()) {
+              <div class="alert alert-danger py-2 small">{{ addressError() }}</div>
+            }
+          }
+
+          <div class="mb-3">
+            <label class="form-label">
+              {{ deliveryType() === 'pickup' ? 'Ready by (optional)' : 'Deliver by (optional)' }}
+            </label>
+            <input [(ngModel)]="deliveryTime" type="time" class="form-control" />
+          </div>
+        }
+
+        <!-- Step 3: Price Summary -->
+        @if (step() === 3) {
+          <table class="table table-sm mb-4">
+            <tbody>
+              @for (item of orderService.items(); track $index; let i = $index) {
+                <tr>
+                  <td>
+                    {{ item.menuItem.name }}
+                    @if (item.quantity > 1) {
+                      <div class="small text-muted">{{ item.quantity }} × ${{ item.menuItem.price.toFixed(2) }} each</div>
+                    }
+                  </td>
+                  <td class="text-end align-middle">${{ itemSubtotal(i) }}</td>
+                </tr>
+              }
+            </tbody>
+            <tfoot class="table-group-divider">
+              <tr>
+                <td>Subtotal</td>
+                <td class="text-end">${{ orderService.subtotal().toFixed(2) }}</td>
+              </tr>
+              @if (deliveryType() === 'delivery') {
+                <tr>
+                  <td>
+                    Delivery
+                    <div class="small text-muted">
+                      ${{ deliveryFeeBase.toFixed(2) }} base
+                      + {{ deliveryMiles()!.toFixed(1) }} mi
+                      &times; ${{ deliveryFeePerMile.toFixed(2) }}/mi
+                    </div>
+                  </td>
+                  <td class="text-end align-middle">${{ deliveryFee().toFixed(2) }}</td>
+                </tr>
+              }
+              <tr>
+                <td>Tax ({{ (taxRate * 100).toFixed(1) }}%)</td>
+                <td class="text-end">${{ tax().toFixed(2) }}</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <span>Tip</span>
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn" [class.btn-primary]="tipOption() === '8'"      [class.btn-outline-secondary]="tipOption() !== '8'"      (click)="tipOption.set('8')">8%</button>
+                      <button class="btn" [class.btn-primary]="tipOption() === '15'"     [class.btn-outline-secondary]="tipOption() !== '15'"     (click)="tipOption.set('15')">15%</button>
+                      <button class="btn" [class.btn-primary]="tipOption() === '20'"     [class.btn-outline-secondary]="tipOption() !== '20'"     (click)="tipOption.set('20')">20%</button>
+                      <button class="btn" [class.btn-primary]="tipOption() === 'custom'" [class.btn-outline-secondary]="tipOption() !== 'custom'" (click)="tipOption.set('custom')">Custom</button>
+                    </div>
+                    @if (tipOption() === 'custom') {
+                      <div class="input-group input-group-sm" style="width: 110px;">
+                        <span class="input-group-text">$</span>
+                        <input
+                          type="number"
+                          class="form-control"
+                          min="0"
+                          step="0.50"
+                          [ngModel]="customTipAmount()"
+                          (ngModelChange)="customTipAmount.set(+$event)"
+                        />
+                      </div>
+                    }
+                  </div>
+                </td>
+                <td class="text-end align-middle">${{ tipAmount().toFixed(2) }}</td>
+              </tr>
+              <tr class="total-row">
+                <td>Total</td>
+                <td class="text-end">${{ total().toFixed(2) }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        }
+
+      </div>
+
+      <div class="modal-footer">
+        @if (step() > 1) {
+          <button class="btn btn-outline-secondary me-auto" (click)="prevStep()">Back</button>
+        }
+        @if (step() < 3) {
+          <button class="btn btn-primary" (click)="nextStep()" [disabled]="calculatingDistance()">
+            @if (calculatingDistance()) {
+              <span class="spinner-border spinner-border-sm me-1"></span> Calculating...
+            } @else {
+              Next
+            }
+          </button>
+        } @else {
+          <button class="btn btn-primary" (click)="placeOrder()">Place Order</button>
+        }
+      </div>
+
     </div>
-  
-    <button class="btn btn-primary">Submit Order</button>
-  }
+  </div>
+</div>
