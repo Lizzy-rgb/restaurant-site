@@ -1,49 +1,65 @@
 <h2 class="mb-4">Profile</h2>
 
 <div class="row g-4">
-  <div class="col-md-6">
-    <h5>Name</h5>
-    <label class="form-label">Display Name</label>
-    <input [(ngModel)]="name" type="text" class="form-control mb-4" />
+  <div class="col-md-6 d-flex flex-column gap-4">
 
-    <h5>Login</h5>
-    <label class="form-label">Change Email</label>
-    <input [(ngModel)]="email" type="email" class="form-control mb-3" />
+    <div class="profile-section">
+      <h5 class="section-title">Display Name</h5>
+      <label class="form-label">Name</label>
+      <input [(ngModel)]="name" type="text" class="form-control mb-3" />
+      @if (nameMessage()) {
+        <p class="small mb-2" [class.text-success]="nameMessage() === 'Saved!'" [class.text-danger]="nameMessage() !== 'Saved!'">
+          {{ nameMessage() }}
+        </p>
+      }
+      <button class="btn btn-primary" (click)="saveName()">Save Name</button>
+    </div>
 
-    <label class="form-label">New Password</label>
-    <input [(ngModel)]="newPassword" type="password" class="form-control mb-3" />
+    <div class="profile-section">
+      <h5 class="section-title">Email</h5>
+      <label class="form-label">New Email</label>
+      <input [(ngModel)]="email" type="email" class="form-control mb-3" />
+      @if (emailMessage()) {
+        <p class="small mb-2" [class.text-success]="emailMessage() === 'Saved!'" [class.text-danger]="emailMessage() !== 'Saved!'">
+          {{ emailMessage() }}
+        </p>
+      }
+      <button class="btn btn-primary" (click)="saveEmail()">Save Email</button>
+    </div>
 
-    <label class="form-label">Confirm Password</label>
-    <input [(ngModel)]="confirmPassword" type="password" class="form-control mb-3" />
+    <div class="profile-section">
+      <h5 class="section-title">Password</h5>
+      <label class="form-label">New Password</label>
+      <input [(ngModel)]="newPassword" type="password" class="form-control mb-3" />
+      <label class="form-label">Confirm Password</label>
+      <input [(ngModel)]="confirmPassword" type="password" class="form-control mb-3" />
+      @if (passwordMessage()) {
+        <p class="small mb-2" [class.text-success]="passwordMessage() === 'Saved!'" [class.text-danger]="passwordMessage() !== 'Saved!'">
+          {{ passwordMessage() }}
+        </p>
+      }
+      <button class="btn btn-primary" (click)="savePassword()">Save Password</button>
+    </div>
 
-    @if (loginMessage()) {
-      <p class="small mb-2" [class.text-success]="loginMessage() === 'Saved!'" [class.text-danger]="loginMessage() !== 'Saved!'">
-        {{ loginMessage() }}
-      </p>
-    }
-    <button class="btn btn-primary" (click)="saveLoginChanges()">Save Login Changes</button>
   </div>
 
   <div class="col-md-6">
-    <h5>Address</h5>
-
-    <label class="form-label">Street</label>
-    <input [(ngModel)]="street" type="text" class="form-control mb-3" />
-
-    <label class="form-label">City</label>
-    <input [(ngModel)]="city" type="text" class="form-control mb-3" />
-
-    <label class="form-label">State</label>
-    <input [(ngModel)]="state" type="text" class="form-control mb-3" />
-
-    <label class="form-label">ZIP</label>
-    <input [(ngModel)]="zip" type="text" class="form-control mb-3" />
-
-    @if (profileMessage()) {
-      <p class="small mb-2" [class.text-success]="profileMessage() === 'Saved!'" [class.text-danger]="profileMessage() !== 'Saved!'">
-        {{ profileMessage() }}
-      </p>
-    }
-    <button class="btn btn-outline-primary" (click)="saveAddress()">Save Address</button>
+    <div class="profile-section">
+      <h5 class="section-title">Address</h5>
+      <label class="form-label">Street</label>
+      <input [(ngModel)]="street" type="text" class="form-control mb-3" />
+      <label class="form-label">City</label>
+      <input [(ngModel)]="city" type="text" class="form-control mb-3" />
+      <label class="form-label">State</label>
+      <input [(ngModel)]="state" type="text" class="form-control mb-3" />
+      <label class="form-label">ZIP</label>
+      <input [(ngModel)]="zip" type="text" class="form-control mb-3" />
+      @if (addressMessage()) {
+        <p class="small mb-2" [class.text-success]="addressMessage() === 'Saved!'" [class.text-danger]="addressMessage() !== 'Saved!'">
+          {{ addressMessage() }}
+        </p>
+      }
+      <button class="btn btn-primary" (click)="saveAddress()">Save Address</button>
+    </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { restaurantName } from '../../../app.config';
 import { Auth } from '../../../core/services/auth';
@@ -13,4 +13,9 @@ import { Auth } from '../../../core/services/auth';
 export class Navbar {
   authenticationService = inject(Auth);
   name = restaurantName;
+
+  firstName = computed(() => {
+    const displayName = this.authenticationService.currentUser()?.displayName;
+    return displayName ? displayName.split(' ')[0] : '';
+  });
 }

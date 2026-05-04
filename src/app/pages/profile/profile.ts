@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '../../core/services/auth';
 import { User } from '../../core/services/user';
@@ -10,7 +10,7 @@ import { User } from '../../core/services/user';
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
-export class Profile implements OnInit {
+export class Profile {
   authService = inject(Auth);
   userService = inject(User);
 
@@ -23,12 +23,19 @@ export class Profile implements OnInit {
   state = '';
   zip = '';
 
-  profileMessage = signal('');
-  loginMessage = signal('');
+  nameMessage = signal('');
+  emailMessage = signal('');
+  passwordMessage = signal('');
+  addressMessage = signal('');
 
-  async ngOnInit() {
-    const uid = this.authService.currentUser()?.uid;
-    if (!uid) return;
+  constructor() {
+    effect(() => {
+      const user = this.authService.currentUser();
+      if (user) this.loadData(user.uid, user.email ?? '');
+    });
+  }
+
+  private async loadData(uid: string, email: string) {
     const data = await this.userService.getUser(uid);
     if (data) {
       this.name = data.name ?? '';
@@ -37,7 +44,45 @@ export class Profile implements OnInit {
       this.state = data.state ?? '';
       this.zip = data.zip ?? '';
     }
-    this.email = this.authService.currentUser()?.email ?? '';
+    this.email = email;
+  }
+
+  async saveName() {
+    const uid = this.authService.currentUser()?.uid;
+    if (!uid) return;
+    try {
+      await Promise.all([
+        this.userService.updateProfile(uid, { name: this.name }),
+        this.authService.updateDisplayName(this.name),
+      ]);
+      this.nameMessage.set('Saved!');
+    } catch {
+      this.nameMessage.set('Failed to save. Please try again.');
+    }
+  }
+
+  async saveEmail() {
+    try {
+      await this.userService.updateEmail(this.email);
+      this.emailMessage.set('Saved!');
+    } catch {
+      this.emailMessage.set('Failed to save. You may need to sign out and sign back in first.');
+    }
+  }
+
+  async savePassword() {
+    if (this.newPassword !== this.confirmPassword) {
+      this.passwordMessage.set('Passwords do not match.');
+      return;
+    }
+    try {
+      await this.userService.updatePassword(this.newPassword);
+      this.newPassword = '';
+      this.confirmPassword = '';
+      this.passwordMessage.set('Saved!');
+    } catch {
+      this.passwordMessage.set('Failed to save. You may need to sign out and sign back in first.');
+    }
   }
 
   async saveAddress() {
@@ -45,35 +90,14 @@ export class Profile implements OnInit {
     if (!uid) return;
     try {
       await this.userService.updateProfile(uid, {
-        name: this.name,
         street: this.street,
         city: this.city,
         state: this.state,
         zip: this.zip,
       });
-      this.profileMessage.set('Saved!');
+      this.addressMessage.set('Saved!');
     } catch {
-      this.profileMessage.set('Failed to save. Please try again.');
-    }
-  }
-
-  async saveLoginChanges() {
-    if (this.newPassword && this.newPassword !== this.confirmPassword) {
-      this.loginMessage.set('Passwords do not match.');
-      return;
-    }
-    try {
-      if (this.email && this.email !== this.authService.currentUser()?.email) {
-        await this.userService.updateEmail(this.email);
-      }
-      if (this.newPassword) {
-        await this.userService.updatePassword(this.newPassword);
-      }
-      this.newPassword = '';
-      this.confirmPassword = '';
-      this.loginMessage.set('Saved!');
-    } catch {
-      this.loginMessage.set('Failed to save. You may need to sign out and sign back in first.');
+      this.addressMessage.set('Failed to save. Please try again.');
     }
   }
 }

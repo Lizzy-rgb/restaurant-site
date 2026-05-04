@@ -17,3 +17,8 @@ nav.navbar .nav-link:hover,
 nav.navbar .nav-link.active {
   color: var(--clr-accent) !important;
 }
+
+.navbar-greeting {
+  color: #d4c4b0;
+  font-size: 0.9rem;
+}

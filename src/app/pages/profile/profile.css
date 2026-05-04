@@ -1,3 +1,18 @@
 h2 {
-    font-weight: 700;
-  }
+  font-weight: 700;
+}
+
+.profile-section {
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(30, 20, 16, 0.06);
+}
+
+.section-title {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--clr-border);
+  color: var(--clr-primary);
+}

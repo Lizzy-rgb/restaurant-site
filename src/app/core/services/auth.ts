@@ -4,6 +4,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
   User,
 } from 'firebase/auth';
 import { auth, db } from '../../firebase.config';
@@ -46,9 +47,15 @@ export class Auth {
       const userObj = await createUserWithEmailAndPassword(auth, email, password);
       const user = userObj.user;
 
+      await updateProfile(user, { displayName: name });
+      // onAuthStateChanged doesn't re-fire after updateProfile, so force the signal
+      // to pick up the mutated displayName
+      this.currentUser.set(null);
+      this.currentUser.set(auth.currentUser);
+
       // Store Additional Fields
       await setDoc(doc(db, 'users', user.uid), {
-        name: name, // Add any additional fields here
+        name: name,
       });
     } catch (error: any) {
       const code = error?.code;
@@ -59,6 +66,14 @@ export class Auth {
         this.errorMessage.set('Error attempting to sign in');
       }
       throw error; // Potential Security Vulnurability?
+    }
+  }
+
+  async updateDisplayName(name: string) {
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, { displayName: name });
+      this.currentUser.set(null);
+      this.currentUser.set(auth.currentUser);
     }
   }
 
