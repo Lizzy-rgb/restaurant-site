@@ -29,7 +29,7 @@ export const routes: Routes = [
     path: 'active-orders',
     component: ActiveOrders,
     title: 'Active Orders',
-    canActivate: [staffGuard],
+    //canActivate: [staffGuard],
   },
   { path: '**', redirectTo: '' },
 ];

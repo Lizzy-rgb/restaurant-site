@@ -2,8 +2,10 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 import { OrderItem } from '../../shared/misc/order-item';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { db, auth } from '../../firebase.config';
-import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, query, onSnapshot } from 'firebase/firestore';
 import { Address } from '../../shared/misc/address';
+import { Order } from '../../shared/misc/order';
+import { OrderFromDb } from '../../shared/misc/order-from-db';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +16,7 @@ export class OrderService {
   items = signal<OrderItem[]>([]);
   editingIndex = signal<number | null>(null);
   currentUser = signal<User | null>(null);
+  allOrders = signal<OrderFromDb[]>([]);
   curTime = new Date();
 
   constructor() {
@@ -23,6 +26,15 @@ export class OrderService {
       if (!user) {
         this.items.set([]);
       }
+    });
+
+    // Set up real-time listener for all orders
+    onSnapshot(this.orderCollection, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        orderId: doc.id,
+      })) as OrderFromDb[];
+      this.allOrders.set(data);
     });
   }
 
@@ -93,6 +105,18 @@ export class OrderService {
     }
   }
 
+  async retrieveAllOrders() {
+    var toReturn = signal<OrderFromDb[]>([]);
+    const q = query(this.orderCollection);
+    const snapshot = await getDocs(q);
+    const data = snapshot.docs.map((doc) => ({
+      ...doc.data(),
+      orderId: doc.id,
+    })) as OrderFromDb[];
+    toReturn.set(data);
+    return toReturn;
+  }
+
   // async updateOrder
 
   async deleteOrder(id: string) {
@@ -104,5 +128,22 @@ export class OrderService {
     } catch (error) {
       console.error('Error occured while clearing order: ', error, this.items.toString);
     }
+  }
+
+  interpretOrderItems(order: OrderFromDb) {
+    var toReturn = [];
+    var buildString = '';
+    for (const char of order.items) {
+      if (char === '|') {
+        toReturn.push(buildString);
+        buildString = '';
+      } else {
+        buildString.concat(char);
+      }
+    }
+    if (buildString.length !== 0) {
+      toReturn.push(buildString);
+    }
+    return toReturn;
   }
 }

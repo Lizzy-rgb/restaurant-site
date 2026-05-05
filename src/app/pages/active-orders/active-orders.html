@@ -1,22 +1,22 @@
 <h2 class="mb-4">Active Orders</h2>
 
 <div class="row g-4">
-  @for (order of orders; track order.id) {
+  @for (order of orders(); track $index) {
     <div class="col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="card-title mb-0">{{ order.name }}</h5>
-            <span class="badge text-bg-danger">{{ order.time }}</span>
+            <h5 class="card-title mb-0">{{ order.orderId }}</h5>
+            <!-- Change above to customer name -->
+            <span class="badge text-bg-danger">{{ order.estimatedTime }}</span>
           </div>
 
           <ul class="list-unstyled">
-            @for (item of order.items; track item) {
+            @for (item of order.items.split('|'); track item) {
               <li>• {{ item }}</li>
             }
           </ul>
-
-          <button class="btn btn-success">Complete</button>
+          <button class="btn btn-success" (click)="completeOrder(order.orderId)">Complete</button>
         </div>
       </div>
     </div>

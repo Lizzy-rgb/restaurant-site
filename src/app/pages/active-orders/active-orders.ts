@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { OrderService } from '../../core/services/order';
+import { OrderFromDb } from '../../shared/misc/order-from-db';
 
 @Component({
   selector: 'app-active-orders',
   standalone: true,
   imports: [],
   templateUrl: './active-orders.html',
-  styleUrl: './active-orders.css'
+  styleUrl: './active-orders.css',
 })
 export class ActiveOrders {
-  orders = [
-    { id: 1, name: 'Order 1', time: '12:00 PM', items: ['Burger', 'Fries'] },
-    { id: 2, name: 'Order 2', time: '12:05 PM', items: ['Pizza'] },
-    { id: 3, name: 'Order 3', time: '12:10 PM', items: ['Salad', 'Drink'] }
-  ];
+  orderService = inject(OrderService);
+
+  orders = this.orderService.allOrders;
+
+  async completeOrder(id: string) {
+    await this.orderService.deleteOrder(id);
+  }
 }

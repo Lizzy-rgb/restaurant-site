@@ -13,11 +13,13 @@
 // Debug stuff, Feel free to delete after development
 import { Component, inject } from '@angular/core';
 import { Auth } from '../../core/services/auth';
+import { db } from '../../firebase.config';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-faq',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './faq.html',
   styleUrl: './faq.css',
 })
