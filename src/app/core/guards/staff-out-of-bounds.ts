@@ -6,7 +6,7 @@ import { AuthGuard } from './auth-guard';
 @Injectable({
   providedIn: 'root',
 })
-export class StaffGuard implements CanActivate {
+export class StaffOOB implements CanActivate {
   authService = inject(Auth);
   router = inject(Router);
   authGuard = inject(AuthGuard);
@@ -16,11 +16,9 @@ export class StaffGuard implements CanActivate {
       this.authGuard.canActivate() &&
       this.authService.currentUser()?.uid === 'wshyoEAhFKQNjtPvtQsbUcQFFXu1'
     ) {
-      //this.router.navigate(['/active-orders']);
-      return true;
+      this.router.navigate(['/active-orders']);
+      return false;
     }
-    console.error('Must be a staff member');
-    this.router.navigate(['/sign-in']);
-    return false;
+    return true;
   }
 }
