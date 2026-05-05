@@ -6,14 +6,25 @@
       <div class="card h-100 shadow-sm">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="card-title mb-0">{{ order.orderId }}</h5>
-            <!-- Change above to customer name -->
+            <h5 class="card-title mb-0">
+              {{ order.userName }}
+              @if (order.deliveryAddress !== null) {
+                (Delivery)
+              } @else {
+                (Pickup)
+              }
+            </h5>
             <span class="badge text-bg-danger">{{ order.estimatedTime }}</span>
           </div>
 
           <ul class="list-unstyled">
             @for (item of order.items.split('|'); track item) {
-              <li>• {{ item }}</li>
+              <li>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="checkDefault" />
+                  <label class="form-check-label" for="checkDefault"> {{ item }} </label>
+                </div>
+              </li>
             }
           </ul>
           <button class="btn btn-success" (click)="completeOrder(order.orderId)">Complete</button>

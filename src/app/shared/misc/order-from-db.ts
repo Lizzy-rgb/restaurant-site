@@ -6,4 +6,5 @@ export interface OrderFromDb {
   estimatedTime: string;
   items: string;
   userId: string;
+  userName: string;
 }

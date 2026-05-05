@@ -99,6 +99,7 @@ export class OrderService {
         userId: user.uid,
         estimatedTime: deliveryTime,
         deliveryAddress: address,
+        userName: user.displayName,
       });
     } catch (error) {
       console.error('Error occured while submitting order: ', error);
