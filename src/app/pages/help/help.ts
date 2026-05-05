@@ -11,4 +11,9 @@ import { RouterLink } from '@angular/router';
 })
 export class Help {
   message = '';
+
+  submitForm() {
+    // I don't think we were ever actually planning to do anything with this, but feel free to improve it if you like
+    this.message = '';
+  }
 }

@@ -8,7 +8,7 @@ export const appConfig: ApplicationConfig = {
   providers: [provideBrowserGlobalErrorListeners(), provideRouter(routes), provideHttpClient()],
 };
 
-export const restaurantName = 'Change Me in app.config.ts!';
+export const restaurantName = 'Dead Week Eatery';
 export const restaurantAddress = '1231 Albrecht Blvd, Fargo, ND 58102';
 export const taxRate = 0.07;
 export const deliveryFeeBase = 3.99;

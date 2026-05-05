@@ -31,6 +31,8 @@
     }
   </div>
 
+  
+  <button class="btn btn-primary" routerLink="/menu">Add Another Item</button>
   <div class="d-flex justify-content-between align-items-center">
     <span class="fs-5">Subtotal: <strong>${{ orderService.subtotal().toFixed(2) }}</strong></span>
     <button class="btn btn-primary" (click)="openCheckout()">Submit Order</button>
@@ -111,7 +113,7 @@
                   type="text"
                   class="form-control"
                   [class.is-invalid]="showValidation() && !deliveryCity.trim()"
-                  placeholder="Springfield"
+                  placeholder="Fargo"
                 />
                 <div class="invalid-feedback">City is required.</div>
               </div>
@@ -122,7 +124,7 @@
                   type="text"
                   class="form-control"
                   [class.is-invalid]="showValidation() && !deliveryState.trim()"
-                  placeholder="IL"
+                  placeholder="ND"
                   maxlength="2"
                 />
                 <div class="invalid-feedback">State is required.</div>

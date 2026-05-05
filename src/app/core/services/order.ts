@@ -1,19 +1,37 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { OrderItem } from '../../shared/misc/order-item';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { db, auth } from '../../firebase.config';
+import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore';
+import { Address } from '../../shared/misc/address';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
+  private orderCollection = collection(db, 'orders');
+
   items = signal<OrderItem[]>([]);
   editingIndex = signal<number | null>(null);
+  currentUser = signal<User | null>(null);
+  curTime = new Date();
+
+  constructor() {
+    onAuthStateChanged(auth, (user) => {
+      this.currentUser.set(user);
+
+      if (!user) {
+        this.items.set([]);
+      }
+    });
+  }
 
   addItem(item: OrderItem) {
-    this.items.update(current => [...current, item]);
+    this.items.update((current) => [...current, item]);
   }
 
   updateItem(index: number, item: OrderItem) {
-    this.items.update(current => {
+    this.items.update((current) => {
       const copy = [...current];
       copy[index] = item;
       return copy;
@@ -29,10 +47,7 @@ export class OrderService {
   }
 
   subtotal() {
-    return this.items().reduce(
-      (sum, item) => sum + item.menuItem.price * item.quantity,
-      0
-    );
+    return this.items().reduce((sum, item) => sum + item.menuItem.price * item.quantity, 0);
   }
 
   itemToString(item: OrderItem): string {
@@ -43,6 +58,51 @@ export class OrderService {
   }
 
   itemsToStrings(): string[] {
-    return this.items().map(item => this.itemToString(item));
+    return this.items().map((item) => this.itemToString(item));
+  }
+
+  itemsAsOrder(): WritableSignal<OrderItem[]> {
+    return this.items;
+  }
+
+  async addOrder(orderStr: string, deliveryTime: string = '', address: Address | null = null) {
+    try {
+      if (orderStr.length === 0) {
+        throw new Error('Cannot submit an empty order');
+      }
+
+      const user = this.currentUser();
+      if (!user) {
+        throw new Error('Must be signed in to submit order');
+      }
+
+      if (!deliveryTime || deliveryTime.length === 0) {
+        var time = new Date();
+        time.setTime(this.curTime.getTime() + 1200000); // 20 min offset
+        deliveryTime = time.getHours() + ':' + time.getMinutes();
+      }
+
+      await addDoc(this.orderCollection, {
+        items: orderStr,
+        userId: user.uid,
+        estimatedTime: deliveryTime,
+        deliveryAddress: address,
+      });
+    } catch (error) {
+      console.error('Error occured while submitting order: ', error);
+    }
+  }
+
+  // async updateOrder
+
+  async deleteOrder(id: string) {
+    try {
+      // Put kitchen auth verification + other intentional errors here
+
+      const docRef = doc(this.orderCollection, id);
+      await deleteDoc(docRef);
+    } catch (error) {
+      console.error('Error occured while clearing order: ', error, this.items.toString);
+    }
   }
 }
