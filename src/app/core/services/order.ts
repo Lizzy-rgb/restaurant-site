@@ -95,7 +95,9 @@ export class OrderService {
       if (!deliveryTime || deliveryTime.length === 0) {
         var time = new Date();
         time.setTime(this.curTime.getTime() + 1200000); // 20 min offset
-        deliveryTime = time.getHours() + ':' + time.getMinutes();
+        var min = time.getMinutes() + '';
+        if (time.getMinutes() < 10) min = ' ' + min;
+        deliveryTime = time.getHours() + ':' + min;
       }
 
       await addDoc(this.orderCollection, {

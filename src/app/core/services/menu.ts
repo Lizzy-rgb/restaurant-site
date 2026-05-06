@@ -24,13 +24,14 @@ export class RestaurantMenu {
       price: 26.99,
       category: 'Entree',
       allergens: [],
-      modifiers: [],
-      note: 'Add cooking preference to order notes. Default is Medium.',
+      modifiers: ['Rare', 'Medium-Rare', 'Medium', 'Medium-Well', 'Well Done'],
+      note: 'If you do not select an option, we will cook your steak medium. If multiple options are selected, we will use the most well-done selection.',
     },
     {
       name: 'Caesar Salad',
       picture: 'images/caesar-salad.jpg',
-      description: 'Crisp romaine lettuce tossed with Caesar dressing, croutons, and Parmesan cheese.',
+      description:
+        'Crisp romaine lettuce tossed with Caesar dressing, croutons, and Parmesan cheese.',
       price: 10.99,
       category: 'Appetizer',
       allergens: ['Dairy', 'Gluten'],
@@ -60,7 +61,8 @@ export class RestaurantMenu {
     {
       name: 'Tiramisu',
       picture: 'images/tiramisu.jpg',
-      description: 'Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream.',
+      description:
+        'Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream.',
       price: 7.99,
       category: 'Dessert',
       allergens: ['Dairy', 'Gluten', 'Eggs'],
@@ -90,7 +92,8 @@ export class RestaurantMenu {
     {
       name: 'Lasagna',
       picture: 'images/lasagne.jpg',
-      description: 'Layers of pasta, meat sauce, ricotta, and mozzarella cheese baked to perfection.',
+      description:
+        'Layers of pasta, meat sauce, ricotta, and mozzarella cheese baked to perfection.',
       price: 15.99,
       category: 'Entree',
       allergens: ['Dairy', 'Gluten'],
@@ -100,7 +103,8 @@ export class RestaurantMenu {
     {
       name: 'Margherita Pizza',
       picture: 'images/margherita-pizza.jpg',
-      description: 'Classic pizza with tomato sauce, fresh mozzarella, basil, and a drizzle of olive oil.',
+      description:
+        'Classic pizza with tomato sauce, fresh mozzarella, basil, and a drizzle of olive oil.',
       price: 13.99,
       category: 'Entree',
       allergens: ['Dairy', 'Gluten'],
@@ -190,7 +194,8 @@ export class RestaurantMenu {
     {
       name: 'Minestrone Soup',
       picture: 'images/minestrone-soup.jpg',
-      description: 'A hearty Italian soup filled with vegetables, beans, and pasta in a savory broth.',
+      description:
+        'A hearty Italian soup filled with vegetables, beans, and pasta in a savory broth.',
       price: 9.99,
       category: 'Appetizer',
       allergens: ['Gluten'],

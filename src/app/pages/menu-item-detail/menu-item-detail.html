@@ -26,7 +26,9 @@
       <div class="alert alert-warning d-flex align-items-center gap-3 mt-3 mb-0">
         <span>Remove this item from your order?</span>
         <button class="btn btn-danger btn-sm" (click)="confirmRemove()">Remove</button>
-        <button class="btn btn-outline-secondary btn-sm" (click)="showRemoveConfirm = false">Cancel</button>
+        <button class="btn btn-outline-secondary btn-sm" (click)="showRemoveConfirm = false">
+          Cancel
+        </button>
       </div>
     }
   </div>
@@ -34,6 +36,7 @@
   @if (modifiers.length > 0) {
     <div class="mb-4">
       <h5 class="mb-3">Modifiers</h5>
+      <p>{{ menuItem.note }}</p>
       @for (modifier of modifiers; track $index) {
         <div class="form-check mb-2">
           <input
