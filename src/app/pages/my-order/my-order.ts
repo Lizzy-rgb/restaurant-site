@@ -86,6 +86,11 @@ export class MyOrder {
     this.router.navigate(['/menu', item.menuItem.name]);
   }
 
+  removeItem(index: number, event: Event) {
+    event.stopPropagation();
+    this.orderService.removeItem(index);
+  }
+
   async openCheckout() {
     this.step.set(1);
     this.deliveryFee.set(0);

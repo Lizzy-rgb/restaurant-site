@@ -50,6 +50,10 @@ export class OrderService {
     });
   }
 
+  removeItem(index: number) {
+    this.items.update((current) => current.filter((_, i) => i !== index));
+  }
+
   startEditing(index: number) {
     this.editingIndex.set(index);
   }

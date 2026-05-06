@@ -27,12 +27,9 @@ export class MenuItemDetail implements OnInit {
 
   menuItem: MenuItem | null = null;
   quantity = 1;
-  modifiers: ModifierOption[] = [
-    { label: 'Modifier 1', selected: false },
-    { label: 'Modifier 2', selected: false },
-    { label: 'Modifier 3', selected: false },
-  ];
+  modifiers: ModifierOption[] = [];
   additionalRequests = '';
+  showRemoveConfirm = false;
 
   ngOnInit() {
     const name = this.route.snapshot.paramMap.get('name');
@@ -42,6 +39,8 @@ export class MenuItemDetail implements OnInit {
       this.router.navigate(['/menu']);
       return;
     }
+
+    this.modifiers = this.menuItem.modifiers.map(label => ({ label, selected: false }));
 
     const editIndex = this.orderService.editingIndex();
     if (editIndex !== null) {
@@ -62,7 +61,20 @@ export class MenuItemDetail implements OnInit {
   }
 
   decrement() {
-    if (this.quantity > 1) this.quantity--;
+    if (this.quantity > 1) {
+      this.quantity--;
+    } else if (this.orderService.editingIndex() !== null) {
+      this.showRemoveConfirm = true;
+    }
+  }
+
+  confirmRemove() {
+    const idx = this.orderService.editingIndex();
+    if (idx !== null) {
+      this.orderService.removeItem(idx);
+      this.orderService.stopEditing();
+    }
+    this.router.navigate(['/my-order']);
   }
 
   addToOrder() {
