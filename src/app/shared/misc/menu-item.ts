@@ -10,5 +10,6 @@ export interface MenuItem {
   price: number;
   category: MenuCategory;
   allergens?: Allergen[];
+  modifiers: string[];
   note?: string;
 }

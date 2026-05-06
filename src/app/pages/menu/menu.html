@@ -85,9 +85,18 @@
                   <span class="badge text-bg-warning me-1">{{ allergen }}</span>
                 }
               </div>
+              @if (item.modifiers.length > 0) {
+                <div class="mb-2">
+                  <span class="modifier-label">Options: </span>
+                  <span class="modifier-list">{{ item.modifiers.join(', ') }}</span>
+                </div>
+              }
               <div class="d-flex justify-content-between align-items-center mt-auto">
                 <span class="fw-bold">${{ item.price.toFixed(2) }}</span>
-                <button class="btn btn-primary btn-sm">Add to Order</button>
+                @let qty = quantityInOrder(item.name);
+                <button class="btn btn-primary btn-sm">
+                  @if (qty > 0) { {{ qty }} | Add Another } @else { Add to Order }
+                </button>
               </div>
             </div>
           </div>

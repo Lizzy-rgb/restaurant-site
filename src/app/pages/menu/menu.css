@@ -90,3 +90,15 @@
   height: 160px;
   object-fit: cover;
 }
+
+.modifier-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-primary);
+}
+
+
+.modifier-list {
+  font-size: 0.75rem;
+  color: var(--clr-primary);
+}

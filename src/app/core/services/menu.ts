@@ -14,6 +14,7 @@ export class RestaurantMenu {
       price: 16.99,
       category: 'Entree',
       allergens: ['Gluten', 'Dairy'],
+      modifiers: ['No Chicken', 'No Broccoli'],
       note: '',
     },
     {
@@ -23,7 +24,8 @@ export class RestaurantMenu {
       price: 26.99,
       category: 'Entree',
       allergens: [],
-      note: '',
+      modifiers: [],
+      note: 'Add cooking preference to order notes. Default is Medium.',
     },
     {
       name: 'Caesar Salad',
@@ -32,6 +34,7 @@ export class RestaurantMenu {
       price: 10.99,
       category: 'Appetizer',
       allergens: ['Dairy', 'Gluten'],
+      modifiers: ['No Croutons', 'No Cheese'],
       note: '',
     },
     {
@@ -41,6 +44,7 @@ export class RestaurantMenu {
       price: 5.99,
       category: 'Appetizer',
       allergens: ['Gluten', 'Dairy'],
+      modifiers: [],
       note: '',
     },
     {
@@ -50,6 +54,7 @@ export class RestaurantMenu {
       price: 14.99,
       category: 'Entree',
       allergens: ['Dairy', 'Gluten'],
+      modifiers: [],
       note: '',
     },
     {
@@ -59,6 +64,7 @@ export class RestaurantMenu {
       price: 7.99,
       category: 'Dessert',
       allergens: ['Dairy', 'Gluten', 'Eggs'],
+      modifiers: [],
       note: '',
     },
     {
@@ -68,15 +74,17 @@ export class RestaurantMenu {
       price: 6.99,
       category: 'Dessert',
       allergens: ['Dairy', 'Gluten', 'Eggs'],
+      modifiers: [],
       note: '',
     },
     {
       name: 'Gelato',
       picture: 'images/gelato.jpg',
-      description: 'Creamy Italian-style ice cream available in various flavors.',
+      description: 'Creamy Italian-style ice cream.',
       price: 4.99,
       category: 'Dessert',
       allergens: ['Dairy'],
+      modifiers: [],
       note: '',
     },
     {
@@ -86,6 +94,7 @@ export class RestaurantMenu {
       price: 15.99,
       category: 'Entree',
       allergens: ['Dairy', 'Gluten'],
+      modifiers: [],
       note: '',
     },
     {
@@ -95,24 +104,27 @@ export class RestaurantMenu {
       price: 13.99,
       category: 'Entree',
       allergens: ['Dairy', 'Gluten'],
+      modifiers: [],
       note: '',
     },
     {
-      name: 'Seasoned Waffle Fries',
+      name: 'Waffle Fries',
       picture: 'images/seasoned-waffle-fries.jpg',
       description: 'Crispy waffle-cut fries seasoned with a blend of herbs and spices.',
       price: 7.99,
       category: 'Appetizer',
       allergens: [],
+      modifiers: ['Cajun Seasoning'],
       note: '',
     },
     {
       name: 'Spaghetti',
       picture: 'images/spaghetti.jpg',
-      description: 'Classic spaghetti noodles served with your choice of marinara or meat sauce.',
+      description: 'Classic spaghetti noodles served with marinara sauce and meatballs.',
       price: 13.99,
       category: 'Entree',
       allergens: ['Gluten'],
+      modifiers: ['No Sauce', 'No Meatballs'],
       note: '',
     },
     {
@@ -122,6 +134,7 @@ export class RestaurantMenu {
       price: 10.99,
       category: 'Appetizer',
       allergens: ['Dairy', 'Gluten'],
+      modifiers: [],
       note: '',
     },
     {
@@ -131,6 +144,7 @@ export class RestaurantMenu {
       price: 22.99,
       category: 'Entree',
       allergens: ['Fish'],
+      modifiers: [],
       note: '',
     },
     {
@@ -140,15 +154,17 @@ export class RestaurantMenu {
       price: 6.99,
       category: 'Appetizer',
       allergens: [],
+      modifiers: [],
       note: '',
     },
     {
       name: 'Iced Tea',
       picture: 'images/iced-tea.jpg',
-      description: 'Refreshing iced tea available in sweetened and unsweetened varieties.',
+      description: 'Refreshing iced tea, lightly sweetened.',
       price: 3.49,
       category: 'Drink',
       allergens: [],
+      modifiers: ['No Sweetener'],
       note: '',
     },
     {
@@ -158,15 +174,17 @@ export class RestaurantMenu {
       price: 3.49,
       category: 'Drink',
       allergens: [],
+      modifiers: ['Strawberry Flavor', 'Blueberry Flavor'],
       note: '',
     },
     {
-      name:'Sparkling Cider',
+      name: 'Sparkling Cider',
       picture: 'images/martinellis-sparkling-cider.jpg',
       description: 'Martinellis carbonated apple cider.',
       price: 4.99,
       category: 'Drink',
       allergens: [],
+      modifiers: [],
       note: '',
     },
     {
@@ -176,6 +194,7 @@ export class RestaurantMenu {
       price: 9.99,
       category: 'Appetizer',
       allergens: ['Gluten'],
+      modifiers: [],
       note: '',
     },
     {
@@ -185,6 +204,7 @@ export class RestaurantMenu {
       price: 4.49,
       category: 'Drink',
       allergens: [],
+      modifiers: ['No Pulp'],
       note: '',
     },
     {
@@ -194,8 +214,9 @@ export class RestaurantMenu {
       price: 9.99,
       category: 'Drink',
       allergens: [],
-      note: '',
-    }
+      modifiers: ['No Alcohol'],
+      note: 'This is an alcoholic beverage.',
+    },
   ];
 
   getFullMenu(): MenuItem[] {

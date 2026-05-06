@@ -12,7 +12,14 @@
         <div class="order-info">
           <div class="d-flex justify-content-between align-items-start">
             <h5 class="mb-1">{{ item.menuItem.name }}</h5>
-            <span class="fw-bold">${{ itemSubtotal(i) }}</span>
+            <div class="d-flex align-items-center gap-2">
+              <span class="fw-bold">${{ itemSubtotal(i) }}</span>
+              <button
+                class="btn btn-outline-danger btn-sm"
+                (click)="removeItem(i, $event)"
+                title="Remove item"
+              >&times;</button>
+            </div>
           </div>
           <p class="text-muted small mb-1">{{ item.menuItem.description }}</p>
           <p class="mb-1 small">Qty: {{ item.quantity }} &times; ${{ item.menuItem.price.toFixed(2) }}</p>

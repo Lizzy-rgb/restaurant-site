@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MenuItem, MenuCategory } from '../../shared/misc/menu-item';
 import { Allergen } from '../../shared/misc/allergen';
 import { RestaurantMenu } from '../../core/services/menu';
@@ -10,7 +10,7 @@ import { OrderService } from '../../core/services/order';
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
@@ -105,6 +105,12 @@ export class Menu {
       const data = await this.userService.getUser(this.uid);
       if (data?.skipModifyOrderPageByDefault === true) this.skipMod = true;
     }
+  }
+
+  quantityInOrder(itemName: string): number {
+    return this.orderService.items()
+      .filter(o => o.menuItem.name === itemName)
+      .reduce((sum, o) => sum + o.quantity, 0);
   }
 
   addToOrder(menuItem: MenuItem) {
