@@ -37,6 +37,13 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/help" routerLinkActive="active">Help</a>
         </li>
+        @if (this.authenticationService.currentUser()?.uid === 'wshyoEAhFKQNjtPvtQsbUcQFFXu1') {
+          <li>
+            <a class="nav-link" routerLink="/active-orders" routerLinkActive="active"
+              >Active Orders</a
+            >
+          </li>
+        }
       </ul>
 
       @if (!authenticationService.currentUser()) {

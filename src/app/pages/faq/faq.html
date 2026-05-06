@@ -1,5 +1,5 @@
 <!-- Original Content -->
-<!-- <h2 class="mb-4">Frequently Asked Questions</h2>
+<h2 class="mb-4">Frequently Asked Questions</h2>
 
 <div class="mb-4">
   <h5>Do I need an account to browse the menu?</h5>
@@ -8,18 +8,47 @@
 
 <div class="mb-4">
   <h5>Do I need an account to place an order?</h5>
-  <p>Yes. You need to sign in or register before submitting an order.</p>
-</div> -->
-
-<!-- Debug -->
-<h2 class="mb-4">Debug Info</h2>
+  <p>Yes. You need to sign in or register before creating an order.</p>
+</div>
 
 <div class="mb-4">
-  <h5>Active Orders Link</h5>
-  <p><a routerLink="/active-orders">Link</a></p>
-  <h5>Sign-in Info</h5>
+  <h5>I have an allergy, do I need to worry about cross-contamination?</h5>
   <p>
-    Signed in? {{ user !== null }} <br />Id: {{ user?.uid }} <br />Email: {{ user?.email }} <br />
-    <!-- Name: {{ user?.name }} -->
+    No, we keep our kitchen partitioned; so long as you avoid menu items that have your allergy tag,
+    you should be fine.
+  </p>
+</div>
+
+<div class="mb-4">
+  <h5>Are you hiring?</h5>
+  <p>
+    You're welcome to come work for us, but we're university students, so we can't afford to pay
+    you. You have been warned.
+  </p>
+</div>
+
+<div class="mb-4">
+  <h5>Why doesn't my address auto-fill when I place a delivery order?</h5>
+  <p>
+    To enable this, please ensure you have "Use saved address by default" turned on in your account
+    settings <a routerLink="/settings">here</a>.
+  </p>
+</div>
+
+<div class="mb-4">
+  <h5>
+    It's annoying going through the modify step every time I add something to my order. Can I skip
+    that?
+  </h5>
+  <p>
+    Yes you can! Please enable "Skip modify order page by default" in your account settings
+    <a routerLink="/settings">here</a>.
+  </p>
+</div>
+
+<div class="mb-4">
+  <h5>I placed an order, but I never saw my food. What happened!?</h5>
+  <p>
+    We're sorry, but that's not our not our area of expertise. Please see a psychiatrist instead.
   </p>
 </div>
