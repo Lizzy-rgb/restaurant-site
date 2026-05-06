@@ -27,11 +27,17 @@ export class Profile {
   emailMessage = signal('');
   passwordMessage = signal('');
   addressMessage = signal('');
+  loading = signal(false);
 
   constructor() {
     effect(() => {
       const user = this.authService.currentUser();
-      if (user) this.loadData(user.uid, user.email ?? '');
+      if (user) {
+        this.loading.set(true);
+        this.loadData(user.uid, user.email ?? '').finally(() => this.loading.set(false));
+      } else {
+        this.loading.set(false);
+      }
     });
   }
 

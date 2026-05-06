@@ -16,7 +16,7 @@ import { StaffOOB } from './core/guards/staff-out-of-bounds';
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'Home' },
-  { path: 'menu', component: Menu, title: 'Menu', canActivate: [StaffOOB] },
+  { path: 'menu', component: Menu, title: 'Menu' },
   { path: 'menu/:name', component: MenuItemDetail, title: 'Edit Item', canActivate: [StaffOOB] },
   { path: 'my-order', component: MyOrder, title: 'My Order', canActivate: [AuthGuard, StaffOOB] },
   { path: 'sign-in', component: SignIn, title: 'Sign In' },

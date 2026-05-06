@@ -1,14 +1,19 @@
 <h2 class="mb-4">Profile</h2>
 
+<p [hidden]="!loading()" class="text-muted">Loading profile…</p>
+
 <div class="row g-4">
   <div class="col-md-6 d-flex flex-column gap-4">
-
     <div class="profile-section">
       <h5 class="section-title">Display Name</h5>
       <label class="form-label">Name</label>
       <input [(ngModel)]="name" type="text" class="form-control mb-3" />
       @if (nameMessage()) {
-        <p class="small mb-2" [class.text-success]="nameMessage() === 'Saved!'" [class.text-danger]="nameMessage() !== 'Saved!'">
+        <p
+          class="small mb-2"
+          [class.text-success]="nameMessage() === 'Saved!'"
+          [class.text-danger]="nameMessage() !== 'Saved!'"
+        >
           {{ nameMessage() }}
         </p>
       }
@@ -20,7 +25,11 @@
       <label class="form-label">New Email</label>
       <input [(ngModel)]="email" type="email" class="form-control mb-3" />
       @if (emailMessage()) {
-        <p class="small mb-2" [class.text-success]="emailMessage() === 'Saved!'" [class.text-danger]="emailMessage() !== 'Saved!'">
+        <p
+          class="small mb-2"
+          [class.text-success]="emailMessage() === 'Saved!'"
+          [class.text-danger]="emailMessage() !== 'Saved!'"
+        >
           {{ emailMessage() }}
         </p>
       }
@@ -34,13 +43,16 @@
       <label class="form-label">Confirm Password</label>
       <input [(ngModel)]="confirmPassword" type="password" class="form-control mb-3" />
       @if (passwordMessage()) {
-        <p class="small mb-2" [class.text-success]="passwordMessage() === 'Saved!'" [class.text-danger]="passwordMessage() !== 'Saved!'">
+        <p
+          class="small mb-2"
+          [class.text-success]="passwordMessage() === 'Saved!'"
+          [class.text-danger]="passwordMessage() !== 'Saved!'"
+        >
           {{ passwordMessage() }}
         </p>
       }
       <button class="btn btn-primary" (click)="savePassword()">Save Password</button>
     </div>
-
   </div>
 
   <div class="col-md-6">
@@ -55,7 +67,11 @@
       <label class="form-label">ZIP</label>
       <input [(ngModel)]="zip" type="text" class="form-control mb-3" />
       @if (addressMessage()) {
-        <p class="small mb-2" [class.text-success]="addressMessage() === 'Saved!'" [class.text-danger]="addressMessage() !== 'Saved!'">
+        <p
+          class="small mb-2"
+          [class.text-success]="addressMessage() === 'Saved!'"
+          [class.text-danger]="addressMessage() !== 'Saved!'"
+        >
           {{ addressMessage() }}
         </p>
       }

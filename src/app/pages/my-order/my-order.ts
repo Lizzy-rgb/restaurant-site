@@ -12,6 +12,7 @@ import { Auth } from '../../core/services/auth';
 import { DistanceService } from '../../core/services/distance';
 import { OrderService } from '../../core/services/order';
 import { Address } from '../../shared/misc/address';
+import { User } from '../../core/services/user';
 
 @Component({
   selector: 'app-my-order',
@@ -25,6 +26,7 @@ export class MyOrder {
   private bsModal: any;
 
   authService = inject(Auth);
+  userService = inject(User);
   orderService = inject(OrderService);
   distanceService = inject(DistanceService);
   router = inject(Router);
@@ -84,7 +86,7 @@ export class MyOrder {
     this.router.navigate(['/menu', item.menuItem.name]);
   }
 
-  openCheckout() {
+  async openCheckout() {
     this.step.set(1);
     this.deliveryFee.set(0);
     this.deliveryMiles.set(null);
@@ -94,7 +96,26 @@ export class MyOrder {
     this.deliveryCity = '';
     this.deliveryState = '';
     this.deliveryZip = 0;
+    const uid = this.authService.currentUser()?.uid;
+    if (uid) {
+      const data = await this.userService.getUser(uid);
+      if (data) {
+        if (data.useSavedAddressByDefault !== undefined) {
+          //console.log('preference is defined');
+          if (data.useSavedAddressByDefault === true) {
+            //console.log('Should skip in checkSkip? ', true);
+            if (data.street && data.city && data.state && data.zip) {
+              this.deliveryStreet = data.street;
+              this.deliveryCity = data.city;
+              this.deliveryState = data.state;
+              this.deliveryZip = Number(data.zip);
+            }
+          }
+        }
+      }
+    }
     this.bsModal = new (window as any).bootstrap.Modal(this.modalRef.nativeElement);
+
     this.bsModal.show();
   }
 
@@ -126,6 +147,7 @@ export class MyOrder {
     // const parts = [this.deliveryStreet.trim(), this.deliveryCity.trim(), this.deliveryState.trim()];
     // if (this.deliveryZip.trim()) parts.push(this.deliveryZip.trim());
     // return parts.join(', ');
+
     return {
       street: this.deliveryStreet,
       city: this.deliveryCity,
@@ -208,6 +230,5 @@ export class MyOrder {
     } catch (error) {
       console.error('Error processing order: ', error);
     }
-    
   }
 }

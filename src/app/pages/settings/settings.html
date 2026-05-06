@@ -1,5 +1,7 @@
 <h2 class="mb-4">Settings</h2>
 
+<p [hidden]="!loading()" class="text-muted">Loading preferences…</p>
+
 <div class="form-check form-switch mb-3">
   <input
     class="form-check-input"
@@ -7,9 +9,7 @@
     id="savedAddress"
     [(ngModel)]="useSavedAddressByDefault"
   />
-  <label class="form-check-label" for="savedAddress">
-    Use saved address by default
-  </label>
+  <label class="form-check-label" for="savedAddress"> Use saved address by default </label>
 </div>
 
 <div class="form-check form-switch mb-3">
@@ -19,7 +19,15 @@
     id="skipModify"
     [(ngModel)]="skipModifyOrderPageByDefault"
   />
-  <label class="form-check-label" for="skipModify">
-    Skip modify order page by default
-  </label>
+  <label class="form-check-label" for="skipModify"> Skip modify order page by default </label>
 </div>
+@if (prefMessage()) {
+  <p
+    class="small mb-2"
+    [class.text-success]="prefMessage() === 'Saved!'"
+    [class.text-danger]="prefMessage() !== 'Saved!'"
+  >
+    {{ prefMessage() }}
+  </p>
+}
+<button type="button" class="btn btn-primary" (click)="savePreferences()">Save Preferences</button>

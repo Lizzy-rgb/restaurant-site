@@ -9,6 +9,8 @@ export interface UserProfile {
   city: string;
   state: string;
   zip: string;
+  useSavedAddressByDefault: boolean;
+  skipModifyOrderPageByDefault: boolean;
 }
 
 @Injectable({

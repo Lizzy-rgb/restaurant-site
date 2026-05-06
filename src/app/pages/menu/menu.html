@@ -1,5 +1,5 @@
 <div class="d-flex flex-wrap gap-2 mb-4">
-  <button class="btn btn-info text-white">Filter</button>
+  <button class="btn btn-secondary text-white">Filter</button>
   <input class="form-control w-auto flex-grow-1" type="text" placeholder="Search menu items" />
   <button class="btn btn-primary">Search</button>
 </div>
@@ -16,7 +16,12 @@
             <span class="badge text-bg-warning">{{ allergen }}</span>
           }
           <p class="fw-bold mb-3">${{ item.price }}</p>
-          <a class="btn btn-primary" [routerLink]="['/menu', item.name]">Add to Order</a>
+          <!-- @if (skipMod) {
+            <a class="btn btn-secondary" (click)="addToOrder(item)">Add to Order</a>
+          } @else {
+            <a class="btn btn-info" [routerLink]="['/menu', item.name]">Add to Order</a>
+          } -->
+          <a class="btn btn-primary" (click)="decide(item)">Add to Order</a>
         </div>
       </div>
     </div>
