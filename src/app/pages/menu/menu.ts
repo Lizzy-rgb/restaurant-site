@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { MenuItem } from '../../shared/misc/menu-item';
+import { MenuItem, MenuCategory } from '../../shared/misc/menu-item';
 import { Allergen } from '../../shared/misc/allergen';
 import { RestaurantMenu } from '../../core/services/menu';
 import { Auth } from '../../core/services/auth';
@@ -41,6 +41,14 @@ export class Menu {
     return count;
   });
 
+  readonly categoryOrder: MenuCategory[] = ['Appetizer', 'Entree', 'Drink', 'Dessert'];
+  readonly categoryLabels: Record<MenuCategory, string> = {
+    Appetizer: 'Appetizers',
+    Entree:    'Entrees',
+    Drink:     'Drinks',
+    Dessert:   'Desserts',
+  };
+
   filteredItems = computed(() => {
     const query = this.searchQuery().toLowerCase();
     const excluded = this.excludedAllergens();
@@ -56,6 +64,13 @@ export class Menu {
       if (max !== null && item.price > max) return false;
       return true;
     });
+  });
+
+  groupedItems = computed(() => {
+    const items = this.filteredItems();
+    return this.categoryOrder
+      .map(category => ({ category, items: items.filter(i => i.category === category) }))
+      .filter(group => group.items.length > 0);
   });
 
   constructor() {
