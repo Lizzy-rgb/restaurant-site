@@ -9,3 +9,30 @@
   margin-right: 2px;
   margin-bottom: 3px;
 }
+
+.filter-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+
+.filter-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 1000;
+  min-width: 260px;
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 16px rgba(30, 20, 16, 0.12);
+}
+
+.filter-heading {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--clr-primary);
+  margin-bottom: 0.5rem;
+}
