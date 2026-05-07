@@ -18,4 +18,6 @@ export class Navbar {
     const displayName = this.authenticationService.currentUser()?.displayName;
     return displayName ? displayName.split(' ')[0] : '';
   });
+
+  
 }
